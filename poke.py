@@ -1,9 +1,17 @@
 #!/usr/local/bin/python3
+import os       # use external tool to query which ssid is currently connected
 import psutil   # access network interface information
 import requests # ability to do web requests
 # Define e-mail and interface to use
-post_json = { "email": "user@email.com" }
-network_interface='iw0'
+expected_ssid='Telia WiFi'
+current_ssid=os.popen("iwgetid").read().split('"')[1]
+
+if not current_ssid == expected_ssid:
+  exit(f'not connected to {expected_ssid}')
+
+post_json={ "email": "user@email.com" }
+#network_interface='iw0' # let iwgetid figure this out instead
+network_interface=os.popen("iwgetid").read().split('"')[0].split()[0]
 mac_address=list(psutil.net_if_addrs()[network_interface][2])[1]
 
 # print(f"if {network_interface} mac: {mac_address}")
