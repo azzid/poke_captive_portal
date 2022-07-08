@@ -2,12 +2,14 @@
 import os       # use external tool to query which ssid is currently connected
 import psutil   # access network interface information
 import requests # ability to do web requests
+import sys      # use sys.exit() rather than exit()
 
 # Verify that we're connected to the expected ssid
 expected_ssid='Telia WiFi'
 current_ssid=os.popen("iwgetid").read().split('"')[1]
 if not current_ssid == expected_ssid:
-  exit(f'not connected to {expected_ssid}')
+  print(f'not connected to {expected_ssid}', file=sys.stderr)
+  sys.exit(1)
 
 # Define e-mail to register with
 post_json={ "email": "user@email.com" }
