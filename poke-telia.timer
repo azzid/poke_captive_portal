@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily re-registration of e-mail with telia wifi
+
+[Timer]
+OnCalendar=mon..fri 08:00
+RandomizedDelaySec=10m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
