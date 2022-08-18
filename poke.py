@@ -24,6 +24,7 @@ if response.status_code == 200:
   print(f'Telia recognizes mac ({mac_address})')
 elif response.status_code == 404:
   print(f'Telia does not recognize mac ({mac_address})')
+  sys.exit(2)
 for varstring in response.url.split('?')[1].split('&'):
   namestr, value = varstring.split('=')
   exec("%s = '%s'" % (namestr, value))
