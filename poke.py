@@ -23,7 +23,8 @@ response=requests.get(f'https://redirect.teliawifi.telia.com/portal?mac={mac_add
 if response.status_code == 200:
   print(f'Telia recognizes mac ({mac_address})')
 elif response.status_code == 404:
-  print(f'Telia does not recognize mac ({mac_address})')
+  print(f'Telia does not recognize mac ({mac_address}), getting logout page - might fix next attempt.')
+  logout_response=requests.get('http://login.homerun.telia.com/sd/logout')
   sys.exit(2)
 for varstring in response.url.split('?')[1].split('&'):
   namestr, value = varstring.split('=')
