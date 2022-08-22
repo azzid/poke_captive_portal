@@ -11,8 +11,21 @@ if not current_ssid == expected_ssid:
   print(f'not connected to {expected_ssid}', file=sys.stderr)
   sys.exit(1)
 
+# Read which e-mail to supply from file
+try:
+  with open(os.path.expanduser('~/.config/poke.conf'), 'r') as file:
+    for line in file:
+      if 'email' in line:
+        email=line.strip().split('=')[1]
+except FileNotFoundError:
+  #print(f"setting default e-mail")
+  email='user@email.com'
+except Exception as e:
+  print(f"unexpected exception: {e}")
+  email='user@email.com'
+
 # Define e-mail to register with
-post_json={ "email": "user@email.com" }
+post_json={ "email": email }
 
 #network_interface='iw0' # let iwgetid figure this out instead
 network_interface=os.popen("iwgetid").read().split('"')[0].split()[0]
@@ -40,6 +53,6 @@ post_response=requests.post(f'https://cp.teliawifi.telia.com/TW-Reg/api/telia/v1
 
 # Print result
 if post_response.status_code == 204:
-  print(f"Succesful post of e-mail address!")
+  print(f"Succesful post of e-mail address [{email}]!")
 else:
   print(f"unknown error, post http status code: '{post_response.status_code}")
