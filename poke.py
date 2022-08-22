@@ -19,12 +19,12 @@ network_interface=os.popen("iwgetid").read().split('"')[0].split()[0]
 mac_address=list(psutil.net_if_addrs()[network_interface][2])[1]
 
 # Get session_token for mac address
+logout_response=requests.get('http://login.homerun.telia.com/sd/logout')
 response=requests.get(f'https://redirect.teliawifi.telia.com/portal?mac={mac_address}')
 if response.status_code == 200:
   print(f'Telia recognizes mac ({mac_address})')
 elif response.status_code == 404:
-  print(f'Telia does not recognize mac ({mac_address}), getting logout page - might fix next attempt.')
-  logout_response=requests.get('http://login.homerun.telia.com/sd/logout')
+  print(f'Telia does not recognize mac ({mac_address}).')
   sys.exit(2)
 for varstring in response.url.split('?')[1].split('&'):
   namestr, value = varstring.split('=')
