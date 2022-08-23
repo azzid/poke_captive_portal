@@ -53,6 +53,6 @@ post_response=requests.post(f'https://cp.teliawifi.telia.com/TW-Reg/api/telia/v1
 
 # Print result
 if post_response.status_code == 204:
-  print(f"Succesful post of e-mail address [{email}]!")
+  print(f"Successful post of e-mail address [{email}]!")
 else:
   print(f"unknown error, post http status code: '{post_response.status_code}")
