@@ -5,7 +5,6 @@ Requires=sys-subsystem-net-devices-iw0.device
 [Service]
 Type=oneshot
 ExecStart=/opt/poke_captive_portal/poke.py
-RemainAfterExit=yes
 ExecStartPre=/bin/sleep 30
 
 [Install]
