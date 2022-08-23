@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 import os       # use external tool to query which ssid is currently connected
 import psutil   # access network interface information
 import requests # ability to do web requests
