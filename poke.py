@@ -46,7 +46,7 @@ try:
 except Exception as e:
     if verbose: print(f"no network_interface defined in config file: {e}")
     try:
-        network_interface=os.popen("iwgetid").read().split('"')[0].split()[0]
+        network_interface=os.popen("iwgetid 2>/dev/null").read().split('"')[0].split()[0]
     except Exception as e:
         if verbose: print(f"no network_interface defined by iwgetid: {e}")
         try:
