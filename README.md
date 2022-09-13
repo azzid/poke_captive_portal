@@ -5,7 +5,7 @@ cli registration of e-mail address with telia captive portal
 ```
 sudo cp -r poke_captive_portal /opt/
 sudo cp /opt/poke_captive_portal/poke-telia.* /etc/systemd/system/
-cp /opt/poke_captive_portal/poke.conf ~/.config/
+sudo cp /opt/poke_captive_portal/poke.conf /root/.config/
 sudo systemctl enable --now poke-telia.timer
 ```
 
