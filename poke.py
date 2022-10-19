@@ -30,7 +30,7 @@ try:
       if 'email' in line:
         email=line.strip().split('=')[1].strip("\"\'")
       if 'wlanif' in line:
-        network_interface=line.strip().split('=')[1]
+        network_interface=line.strip().split('=')[1].strip("\"\'")
 except FileNotFoundError:
   #print(f"setting default e-mail")
   email='user@email.com'
