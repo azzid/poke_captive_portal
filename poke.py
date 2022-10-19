@@ -4,9 +4,21 @@ import psutil   # access network interface information
 import requests # ability to do web requests
 import sys      # use sys.exit() rather than exit()
 
+verbose=False
+
 # Verify that we're connected to the expected ssid
 expected_ssid='Telia WiFi'
-current_ssid=os.popen("iwgetid").read().split('"')[1]
+try:
+    current_ssid=os.popen("iwgetid 2>/dev/null").read().split('"')[1]
+except Exception as e:
+    if verbose: print(f"iwgetid failed to identify ssid: {e}")
+    try:
+        current_ssid=os.popen("nmcli connection show --active | grep -o '" + expected_ssid + "'").read().strip()
+    except Exception as e:
+        print(f"nmcli failed to identify ssid: {e}")
+        sys.exit(1)
+
+# nmcli connection show --active | grep -o 'Telia WiFi'
 if not current_ssid == expected_ssid:
   print(f'not connected to {expected_ssid}', file=sys.stderr)
   sys.exit(1)
@@ -17,6 +29,8 @@ try:
     for line in file:
       if 'email' in line:
         email=line.strip().split('=')[1].strip("\"\'")
+      if 'wlanif' in line:
+        network_interface=line.strip().split('=')[1]
 except FileNotFoundError:
   #print(f"setting default e-mail")
   email='user@email.com'
@@ -27,8 +41,20 @@ except Exception as e:
 # Define e-mail to register with
 post_json={ "email": email }
 
-#network_interface='iw0' # let iwgetid figure this out instead
-network_interface=os.popen("iwgetid").read().split('"')[0].split()[0]
+try:
+    network_interface
+except Exception as e:
+    if verbose: print(f"no network_interface defined in config file: {e}")
+    try:
+        network_interface=os.popen("iwgetid").read().split('"')[0].split()[0]
+    except Exception as e:
+        if verbose: print(f"no network_interface defined by iwgetid: {e}")
+        try:
+            network_interface=[a for a in list(psutil.net_if_addrs().keys()) if 'w' in a][0]
+        except Exception as e:
+            print(f"no network_interface defined by psutil: {e}")
+            sys.exit(1)
+
 mac_address=list(psutil.net_if_addrs()[network_interface][2])[1]
 
 # Get session_token for mac address
