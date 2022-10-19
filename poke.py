@@ -16,7 +16,7 @@ try:
   with open(os.path.expanduser('~/.config/poke.conf'), 'r') as file:
     for line in file:
       if 'email' in line:
-        email=line.strip().split('=')[1]
+        email=line.strip().split('=')[1].strip("\"\'")
 except FileNotFoundError:
   #print(f"setting default e-mail")
   email='user@email.com'
