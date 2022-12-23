@@ -1,11 +1,12 @@
 [Unit]
 Description=Register e-mail with telia captive portal
-Requires=sys-subsystem-net-devices-iw0.device
+Requires=sys-subsystem-net-devices-<wifi interface>.device
 
 [Service]
 Type=oneshot
 ExecStart=/opt/poke_captive_portal/poke.py
-ExecStartPre=/bin/sleep 30
+User=<username>
+Group=<username>
 
 [Install]
 WantedBy=network-online.target
