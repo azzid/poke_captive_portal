@@ -21,7 +21,7 @@ except Exception as e:
 # nmcli connection show --active | grep -o 'Telia WiFi'
 if not current_ssid == expected_ssid:
   print(f'not connected to {expected_ssid}', file=sys.stderr)
-  sys.exit(1)
+  sys.exit(0)
 
 # Read which e-mail to supply from file
 try:
