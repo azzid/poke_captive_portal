@@ -15,4 +15,4 @@ sudo systemctl enable --now poke-telia.timer
 sudo cp /opt/poke_captive_portal/poke-telia.sh /etc/NetworkManager/dispatcher.d/
 ```
 
-Ensure to adjust `~/.config/poke.conf` and `/etc/systemd/system/poke-telia.service` to your system.
+Ensure to adjust `~/.config/poke.conf`, `/etc/systemd/system/poke-telia.service` and `/etc/NetworkManager/dispatcher.d/poke-telia.sh` to your system.
